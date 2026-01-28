@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import java.net.CookieStore
 
 class MyViewModel(): ViewModel() {
 
@@ -21,12 +22,33 @@ class MyViewModel(): ViewModel() {
     // usamos mutable, ya que la queremos modificar
     var _numbers = MutableStateFlow(0)
 
+    //Creamos la variable del estado del boton
+    val _estadoBoton = MutableStateFlow(EstadosBotones.BOTON_CERO)
     // inicializamos variables cuando instanciamos
     init {
         // estado inicial
         Log.d(TAG_LOG, "Inicializamos ViewModel - Estado: ${estadoActual.value}")
     }
 
+
+    //Método para mostrar el estado del botón
+    fun mostrarEstadoBoton(color: Colores){
+        if(color == Colores.CLASE_ROJO){
+            _estadoBoton.value = EstadosBotones.BOTON_ROJO
+        }
+        if(color == Colores.CLASE_AMARILLO){
+            _estadoBoton.value = EstadosBotones.BOTON_AMARILLO
+        }
+        if(color == Colores.CLASE_AZUL){
+            _estadoBoton.value = EstadosBotones.BOTON_AZUL
+        }
+        if(color == Colores.CLASE_VERDE){
+            _estadoBoton.value = EstadosBotones.BOTON_VERDE
+        }
+        if(color == Colores.CLASE_START){
+            _estadoBoton.value = EstadosBotones.BOTON_CERO
+        }
+    }
     /**
      * crear entero random
      */

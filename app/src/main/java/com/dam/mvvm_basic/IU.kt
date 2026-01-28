@@ -35,6 +35,8 @@ fun IU(miViewModel: MyViewModel) {
     // para que sea mas facil la etiqueta del log
     // val TAG_LOG = "miDebug"
 
+    val estado by miViewModel._estadoBoton.collectAsState()
+
     // botones en horizontal
     Column(
         modifier= Modifier.fillMaxWidth().fillMaxHeight().padding(20.dp),
@@ -42,6 +44,9 @@ fun IU(miViewModel: MyViewModel) {
         verticalArrangement = Arrangement.SpaceAround)
     {
         Column {
+            Column {
+                EstadoBoton(miViewModel)
+            }
             Row {
                 // creo un boton rojo
                 Boton(miViewModel, Colores.CLASE_ROJO)
@@ -63,6 +68,13 @@ fun IU(miViewModel: MyViewModel) {
 }
 
 @Composable
+fun EstadoBoton(miViewModel: MyViewModel) {
+    val estado by miViewModel._estadoBoton.collectAsState()
+    Text(
+        text = "$estado"
+    )
+}
+@Composable
 fun Boton(miViewModel: MyViewModel, enum_color: Colores) {
 
     // para que sea mas facil la etiqueta del log
@@ -70,6 +82,8 @@ fun Boton(miViewModel: MyViewModel, enum_color: Colores) {
 
     // variable para el estado del boton
     var _activo = miViewModel.estadoActual.collectAsState().value.boton_activo
+
+    var estadoBoton = miViewModel._estadoBoton.collectAsState()
 
 
     // separador entre botones
@@ -82,6 +96,7 @@ fun Boton(miViewModel: MyViewModel, enum_color: Colores) {
         onClick = {
             Log.d(TAG_LOG, "Dentro del boton: ${enum_color.ordinal}")
             miViewModel.comprobar(enum_color.ordinal)
+            miViewModel.mostrarEstadoBoton(enum_color)
                   },
         modifier = Modifier
             .size((80).dp, (40).dp)
