@@ -71,7 +71,7 @@ fun IU(miViewModel: MyViewModel) {
 fun EstadoBoton(miViewModel: MyViewModel) {
     val estado by miViewModel._estadoBoton.collectAsState()
     Text(
-        text = "$estado"
+        text = estado.txt
     )
 }
 @Composable
