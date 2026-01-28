@@ -57,14 +57,14 @@ class MyViewModel(): ViewModel() {
             estadoActual.value = Estados.INICIO
             Log.d(TAG_LOG, "GANAMOS - Estado: ${estadoActual.value}")
             //lanzamos estados auxiliares en paralelo
-            estadosAuxiliares("Ganador")
+            estadosAuxiliares("Ganador","Texto2Acierto")
             true
         } else {
             Log.d(TAG_LOG, "no es correcto")
             estadoActual.value = Estados.ADIVINANDO
             Log.d(TAG_LOG, "otro intento - Estado: ${estadoActual.value}")
             //lanzamos estados auxiliares en paralelo
-            estadosAuxiliares("Fallo")
+            estadosAuxiliares("Fallo","Texto2Fallo")
             false
         }
     }
@@ -72,21 +72,21 @@ class MyViewModel(): ViewModel() {
     /**
      * Corutina que lanza estados auxiliares
      */
-    fun estadosAuxiliares(msg: String = "") {
+    fun estadosAuxiliares(msg1: String = "", msg2: String = "") {
         viewModelScope.launch {
             // inicializamos estado auxiliar
             // los recorremos
             var estadoAux = EstadosAuxiliares.AUX1
             Log.d(TAG_LOG, "estado (corutina): ${estadoAux}")
-            Log.d(TAG_LOG, "mensaje (corutina): ${msg}")
+            Log.d(TAG_LOG, "mensaje (corutina): ${estadoAux.funcion(msg1,msg2)}")
             delay(1500)
             estadoAux = EstadosAuxiliares.AUX2
             Log.d(TAG_LOG, "estado (corutina): ${estadoAux}")
-            Log.d(TAG_LOG, "mensaje (corutina): ${msg}")
+            Log.d(TAG_LOG, "mensaje (corutina): ${estadoAux.funcion(msg1,msg2)}")
             delay(1500)
             estadoAux = EstadosAuxiliares.AUX3
             Log.d(TAG_LOG, "estado (corutina): ${estadoAux}")
-            Log.d(TAG_LOG, "mensaje (corutina): ${msg}")
+            Log.d(TAG_LOG, "mensaje (corutina): ${estadoAux.funcion(msg1,msg2)}")
             delay(1500)
         }
     }
