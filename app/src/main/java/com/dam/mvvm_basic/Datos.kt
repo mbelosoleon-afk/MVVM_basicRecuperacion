@@ -45,4 +45,8 @@ enum class EstadosAuxiliares(val txt: String) {
     AUX1(txt = "aux1"),
     AUX2(txt = "aux2"),
     AUX3(txt = "aux3"),
+
+    CUENTA_ACTIVA(txt = "Cuenta activa"),
+
+    CUENTA_INACTIVA(txt = "Cuenta inactiva")
 }

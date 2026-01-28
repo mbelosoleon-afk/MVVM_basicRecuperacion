@@ -1,8 +1,10 @@
 package com.dam.mvvm_basic
 
 import android.util.Log
+import androidx.compose.animation.core.EaseInSine
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -20,6 +22,10 @@ class MyViewModel(): ViewModel() {
     // este va a ser nuestra lista para la secuencia random
     // usamos mutable, ya que la queremos modificar
     var _numbers = MutableStateFlow(0)
+
+    val _tiempo = MutableStateFlow(0)
+    var cuenta: Job? = null
+    val estadoCuenta = MutableStateFlow(EstadosAuxiliares.CUENTA_INACTIVA)
 
     // inicializamos variables cuando instanciamos
     init {
@@ -89,5 +95,26 @@ class MyViewModel(): ViewModel() {
             Log.d(TAG_LOG, "mensaje (corutina): ${msg}")
             delay(1500)
         }
+    }
+
+    fun cuenta(){
+        //Se muestra la cantidad de segundos entre cada intervalo
+        Log.d("CuentaFinalIntervalo","Cantidad de segundos entre intervalos: ${_tiempo.value}")
+        _tiempo.value = 0
+        estadoCuenta.value = EstadosAuxiliares.CUENTA_ACTIVA
+        cuenta = viewModelScope.launch {
+            while(estadoCuenta.value == EstadosAuxiliares.CUENTA_ACTIVA && estadoActual.value != Estados.INICIO){
+                delay(1000)
+                _tiempo.value++
+            }
+
+            cancelarCuenta()
+        }
+    }
+    fun cancelarCuenta(){
+        _tiempo.value = 0
+        cuenta?.cancel()
+        estadoCuenta.value = EstadosAuxiliares.CUENTA_INACTIVA
+        estadoActual.value = Estados.INICIO
     }
 }

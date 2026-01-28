@@ -42,6 +42,9 @@ fun IU(miViewModel: MyViewModel) {
         verticalArrangement = Arrangement.SpaceAround)
     {
         Column {
+            Column {
+                mostrarCuenta(miViewModel)
+            }
             Row {
                 // creo un boton rojo
                 Boton(miViewModel, Colores.CLASE_ROJO)
@@ -63,6 +66,13 @@ fun IU(miViewModel: MyViewModel) {
 }
 
 @Composable
+fun mostrarCuenta(miViewModel: MyViewModel){
+    val tiempo by miViewModel._tiempo.collectAsState()
+    Text(
+        text = "$tiempo"
+    )
+}
+@Composable
 fun Boton(miViewModel: MyViewModel, enum_color: Colores) {
 
     // para que sea mas facil la etiqueta del log
@@ -82,6 +92,7 @@ fun Boton(miViewModel: MyViewModel, enum_color: Colores) {
         onClick = {
             Log.d(TAG_LOG, "Dentro del boton: ${enum_color.ordinal}")
             miViewModel.comprobar(enum_color.ordinal)
+            miViewModel.cuenta()
                   },
         modifier = Modifier
             .size((80).dp, (40).dp)
